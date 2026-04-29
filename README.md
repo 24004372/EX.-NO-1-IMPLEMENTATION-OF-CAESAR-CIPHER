@@ -18,53 +18,47 @@ STEP-5: Display the cipher text obtained above.
 ## PROGRAM:
 ```
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
 
-#include <string.h>
+void caesarEncrypt(char *text, int key) {
+    for (int i = 0; text[i] != '\0'; i++) {
+        char c = text[i];
 
-void encode(char *str, int offset, char *result) {
-    int i;
-    int length = strlen(str);
-    offset = offset % 26 + 26;
-    for (i = 0; i < length; i++) {
-        if (isalpha(str[i])) {
-            if (isupper(str[i])) {
-                result[i] = 'A' + (str[i] - 'A' + offset) % 26;
-            } else {
-                result[i] = 'a' + (str[i] - 'a' + offset) % 26;
-            }
-        } else {
-            result[i] = str[i];
+        if (c >= 'A' && c <= 'Z') {
+            text[i] = ((c - 'A' + key) % 26 + 26) % 26 + 'A';
+        } else if (c >= 'a' && c <= 'z') {
+            text[i] = ((c - 'a' + key) % 26 + 26) % 26 + 'a';
         }
     }
-    result[length] = '\0'; 
 }
 
-void decode(char *str, int offset, char *result) {
-
-    encode(str, 26 - (offset % 26), result);
+void caesarDecrypt(char *text, int key) {
+    caesarEncrypt(text, -key);
 }
 
 int main() {
-    char msg[] = "Shriram";
-    char encoded[256];
-    char decoded[256];
-    
-    printf("Simulation of Caesar Cipher\n");
-    printf("Input message: %s\n", msg);
-    
-    encode(msg, 12, encoded);
-    printf("Encoded message: %s\n", encoded);
-    
-    decode(encoded, 12, decoded);
-    printf("Decoded message: %s\n", decoded);
-    
+    char message[100];
+    int key;
+
+    printf("Enter the message to encrypt: ");
+    fgets(message, sizeof(message), stdin);
+
+    printf("Enter the Caesar Cipher key (an integer): ");
+    scanf("%d", &key);
+
+    caesarEncrypt(message, key);
+    printf("Encrypted Message: %s", message);
+
+    caesarDecrypt(message, key);
+    printf("Decrypted Message: %s", message);
+
     return 0;
 }
 ```
 ## OUTPUT:
 
-<img width="1754" height="1041" alt="image" src="https://github.com/user-attachments/assets/fc4e766d-9ce1-4f45-9669-11c32016a491" />
+<img width="1484" height="1021" alt="image" src="https://github.com/user-attachments/assets/a8723abd-85fb-4aba-a970-958a07ba33cb" />
+
 
 ## RESULT :
  Thus the implementation of ceasar cipher had been executed successfully.
